@@ -234,12 +234,12 @@ class NestedSetsBehavior extends Behavior
      * @param integer|null $depth the depth
      * @return \yii\db\ActiveQuery
      */
-    public function children($depth = null)
+    public function children($depth = null, $includeSelf = false)
     {
         $condition = [
             'and',
-            ['>', $this->leftAttribute, $this->owner->getAttribute($this->leftAttribute)],
-            ['<', $this->rightAttribute, $this->owner->getAttribute($this->rightAttribute)],
+            [$includeSelf ? '>=' : '>', $this->leftAttribute, $this->owner->getAttribute($this->leftAttribute)],
+            [$includeSelf ? '<=' : '<', $this->rightAttribute, $this->owner->getAttribute($this->rightAttribute)],
         ];
 
         if ($depth !== null) {
